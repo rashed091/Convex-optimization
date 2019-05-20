@@ -1,0 +1,182 @@
+\documentclass[12pt]{beamer}
+\usepackage{../latex-sty/mypres}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
+
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+  \insertshorttitle\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
+\title[Семинар 3]{Методы оптимизации. \\
+ Семинар 3. Проекция точки на множество, отделимость, опорная гиперплоскость}
+\author{Александр Катруца}
+\institute{Московский физико-технический институт,\\
+Факультет Управления и Прикладной Математики} 
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}{Напоминание}
+\begin{itemize}
+\item Аффинная оболочка и аффинное множество
+\item Выпуклая оболочка и выпуклое множество
+\item Коническая оболочка и выпуклый конус
+\item Операции, сохраняющие выпуклость
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Внутренности множества}
+
+\begin{block}{Внутренность множества}
+Внутренность множества $G$ состоит из точек из $G$, таких что:
+\[ 
+\inter G = \{ \bx \in G \; | \; \exists \varepsilon > 0, B(\bx, \varepsilon) \subset G\},
+\]
+где $B(\bx, \varepsilon) = \{ \by \; | \; \| \bx - \by \| \leq \varepsilon \}$
+\end{block}
+
+\begin{block}{Относительная внутренность}
+Относительной внутренностью множества $G$ называют следующее множество: 
+\[
+\relint G = \{ \bx \in G \; | \; \exists \varepsilon > 0,  B(\bx, \varepsilon) \cap \mathbf{aff} G \subseteq G \}
+\]
+\end{block}
+Вопрос: зачем нужна концепция относительной внутренности?
+\end{frame}
+
+\begin{frame}{Примеры}
+Найти относительные внутренности следующих множеств
+\begin{enumerate}
+\item $\{ \bx \in \bbR^n | \bA\bx = \mathbf{b} \}$
+\item $\{ \bx \in \bbR^n | \sum\limits_{i=1}^n \alpha_i x_i^2 \leq 1, \; \alpha_i > 0 , i = 1,\ldots, n \}$ 
+\item $\{ \bx \in \bbR^n | \sum\limits_{i=1}^n \alpha_i x_i^2 = 1, \; \alpha_i > 0 , i = 1,\ldots, n \}$ 
+\item $\{ (x_1, x_2, x_3) \in \bbR^3 | -1 \leq x_1 \leq 1, \; -1 \leq x_2 \leq 1, \; x_3 = 0 \}$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Проекция точки на множество}
+\small
+\begin{block}{Расстояние между точкой и множеством}
+Расстоянием $d$ от точки $\ba \in \bbR^n$ до замкнутого множества $X \subset \bbR^n$ по норме $\| \cdot \|$ является
+\vspace{-4mm}
+\[
+d(\ba, X, \| \cdot \|) = \inf\{\| \ba - \by \| \; | \; \by \in X\}
+\]
+\end{block}
+\begin{block}{Проекция точки на множество}
+Проекцией точки $\ba \in \bbR^n$ на множество $X \subset \bbR^n$ по норме $\| \cdot \|$ будем называть такую точку $\pi_X(\ba) \in X$, что
+\vspace{-4mm}
+\[
+\pi_X(\ba) = \argmin_{\by \in X} \| \ba - \by \|
+\]
+\end{block}
+Вопросы: единственна ли проекция? Если нет, то в каких случаях единственна? Какая связь между единственностью проекции и выпуклостью множества?
+
+\end{frame}
+
+\begin{frame}{Факты о проекциях}
+
+\begin{block}{Критерий проекции}
+Точка $\pi_X(\ba) \in X$ является проекцией точки $\ba$ на множество $X$ $\Leftrightarrow$ $\| \ba - \bx \| \geq \| \ba - \pi_X(\ba) \|, \; \forall \bx \in X$.
+\end{block}
+
+\begin{block}{Критерий проекции для нормы $\ell_2$}
+Точка $\pi_X(\ba) \in X$ является проекцией точки $\ba$ на множество $X$ $\Leftrightarrow$ $\langle \pi_X(\ba) - \ba, \bx - \pi_X(\ba) \rangle \geq 0, \; \forall \bx \in X$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Примеры}
+\begin{enumerate}
+\item Проекция на шар $\{\bx \in \bbR^2 | \| \bx \|_* \leq 1\}$ в различных нормах
+\item Проекция на плоскость $\{ \bx \in \bbR^n \; | \; \langle \bc, \bx \rangle = b \}$
+\item Проекция на аффинное множество $\{ \bx \in \bbR^n | \bA\bx = \mathbf{b}, \; \bA \in \bbR^{m \times n}, rank(\bA) = m \}$
+%\item Проекция на аффинное множество $\{ \bx \in \bbR^n | \bx = \bx_0 + \bS\by, \; \bS \in \bbR^{n \times m}, \; \by \in \bbR^m, rank(\bS) = m \}$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Отделимость выпуклых множеств}
+\small
+\begin{block}{Определение}
+Пусть $X_1, X_2 \subset \bbR^n$ произвольные множества. Они называются:
+\vspace{-3mm}
+\begin{itemize}
+\item отделимыми, если $\exists \bp, \beta: \; \langle\bp, \bx_1 \rangle \geq \beta \geq \langle \bp, \bx_2\rangle$, $\forall \bx_1 \in X_1$ и $\forall \bx_2 \in X_2$.
+\vspace{-3mm}
+\item собственно отделимыми, если они отделимы и $\exists \bx_1^* \in X$ и $\exists \bx_2^* \in X$: $\langle \bp, \bx_1^* \rangle > \langle \bp, \bx_2^* \rangle$
+\vspace{-3mm}
+\item сильно отделимыми, если $\exists \bp \neq 0$ и $\beta$: $\inf\limits_{\bx_1 \in X_1} \langle \bp, \bx_1 \rangle > \beta > \sup\limits_{\bx_2 \in X_2} \langle \bp, \bx_2 \rangle$
+\vspace{-3mm}
+\item строго отделимы, если $\forall \bx_1 \in X_1$ и $\forall \bx_2 \in X_2$: $\langle \bp, \bx_1 \rangle > \langle \bp, \bx_2 \rangle$.
+\end{itemize} 
+\end{block}
+
+\begin{block}{Разделяющая гиперплоскость}
+Разделяющей гиперплоскостью для множеств $X_1, X_2$ является такая гиперплоскость $\{ \bx | \langle \bp, \bx \rangle = \beta \}$, что $\langle \bp, \bx_1 \rangle \geq \beta$ для всех $\bx_1 \in X_1$ и $\langle \bp, \bx_2 \rangle \leq \beta$ для всех $\bx_2 \in X_2$   
+\end{block}
+\end{frame}
+
+\begin{frame}{Факты об отделимости}
+\begin{block}{Существование}
+Пусть $X_1$ и $X_2$ выпуклые не пересекающиеся множества, тогда существует разделяющая их гиперплоскость. 
+\end{block}
+
+\begin{block}{Критерий для выпуклых множеств}
+Два выпуклых множества, таких что по крайней мере одно из них открыто, не пересекаются тогда и только тогда, когда существует разделяющая гиперплоскость.
+\end{block}
+
+\begin{block}{Критерий сильной отделимости}
+Два выпуклых множества сильно отделимы тогда и только тогда когда расстояние между ними положительно.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Примеры}
+\begin{enumerate}
+\item Построить разделяющую гиперплоскость для множеств $X_1, X_2$: $X_1 = \{ (x_1, x_2) \in \bbR^2 | x_1x_2 > 1, x_1 > 0 \}$, $X_2 = \{ (x_1, x_2) \in \bbR^2 |  x_2 \leq 9 + \frac{4}{x_1 - 1} \}$.
+\item Критерий разрешимости системы строгих линейных неравенств $\bA\bx < \mathbf{b}$ как не пересечение аффинного множества $\{\mathbf{b} - \bA\bx | \bx \in \bbR^n \}$ и множества $\{ \by \in \bbR^m | y_i > 0 \}$ 
+\item Пример двух замкнутых выпуклых не пересекающихся множеств, которые не являются строго отделимыми
+%\item Построить разделяющую гиперплоскость для множеств $X_1 = \{ \bx \in \bbR^n | \| \bx \|^2_2 \leq 1 \}$ и $X_2 = \{ \bx \in \bbR^n | x_1^2 + \ldots + x_{n-1}^2 + 1 \leq x_n \}$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Опорная гиперплоскость}
+\begin{block}{Опорная гиперплоскость}
+Гиперплоскость $\{ \bx \in \bbR^n | \langle \bp, \bx \rangle = \beta \}$ называется опорной к множеству $X$ в граничной точке $\bx_0$, если $\langle \bp, \bx \rangle \geq \beta = \langle \bp, \bx_0 \rangle$ для всех $\bx \in X$.
+\end{block}
+
+\begin{block}{Собственно опорная гиперплоскость}
+Гиперплоскость $\{ \bx \in \bbR^n | \langle \bp, \bx \rangle = \beta \}$ называется собственно опорной к множеству $X$ в точке $\bx_0$, если она опорная и $\exists \tilde{\bx} \in X$: $\langle \bp, \tilde{\bx} \rangle > \beta$.
+\end{block}
+
+\begin{block}{Теорема об опорной гиперплоскости}
+В любой граничной (относительно граничной) точке выпуклого множества существует опорная (собственно опорная) гиперплоскость.
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Примеры}
+\begin{enumerate}
+\item Выразить множество $\{ (x_1, x_2) \in \bbR_+^2| x_1x_2 \geq 1\}$ как пересечение гиперплоскостей
+\item Построить опорную гиперплоскость к множеству $X = \{ (x_1, x_2) \in \bbR^2 | e^{x_1} \leq x_2 \}$ в точке $\bx_0 = (0, 1)$
+\item Найти уравнение гиперплоскости опорной к множеству $X = \{ (x_1, x_2, x_3) \in \bbR^3 | x_3 \geq x_1^2 + x_2^2 \}$ и отделяющей его от точки $\bx_0 = (-5/4, 5 / 16, 15/16)$
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Резюме}
+\begin{itemize}
+\item Внутренность и относительная внутренность выпуклого множества
+\item Проекция точки на множество
+\item Отделимость выпуклых множеств
+\item Опорная гиперплоскость
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}
+
+http://math.stackexchange.com/questions/26456/disjoint-convex-sets-that-are-not-strictly-separated

@@ -1,0 +1,140 @@
+\documentclass[12pt]{beamer}
+\usepackage{../latex-sty/mypres}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+  \insertshorttitle\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
+\title[Семинар 7]{Методы оптимизации. \\
+ Семинар 7. Субдифференциал.}
+\author{Александр Катруца}
+\institute{Московский физико-технический институт,\\
+Факультет Управления и Прикладной Математики} 
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}{Напоминание}
+\begin{itemize}
+\item Выпуклая функция
+\item Надграфик и множество подуровня функции
+\item Критерии выпуклости функции
+\item Неравенство Йенсена
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Мотивация}
+\begin{block}{Зачем?}
+Важным свойством непрерывной выпуклой функции $f$ является то, что в выбранной точке $\bx$ для всех $\by \in \text{dom } f$ выполнено неравенство:
+\vspace{-3mm} 
+\[
+f(\by) - f(\bx) \geq \langle \ba, \by - \bx \rangle
+\vspace{-4mm}
+\]
+для некоторого вектора $\ba$, то есть касательная к графику функции является {\color{red}{глобальной}} оценкой снизу для функции. 
+\end{block}
+
+\begin{itemize}
+\item Если $f$ дифференцируема, то $\ba = \nabla f(\by)$.
+\item Что делать, если $f$ недифференцируема?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Определение}
+\begin{block}{Субградиент}
+Вектор $\ba$ называется субградиентом функции $f: X \rightarrow \bbR^n$ в точке $\bx$, если 
+\vspace{-3mm}
+\[
+f(\by) - f(\bx) \geq \langle \ba, \by - \bx \rangle
+\]
+для всех $\by \in X$.
+\end{block}
+
+\begin{block}{Субдифференциал}
+Множество субградиентов функции $f$ в точке $\bx$ называется субдифференциалом $f$ в $\bx$ и обозначается $\partial f(\bx)$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Полезные факты}
+\begin{block}{Теорема Моро-Рокафеллара}
+Пусть $f_i(\bx)$~--- выпуклые функции на выпуклых множествах $G_i, \; i = 1,\ldots,n$. 
+Тогда, если $\bigcap\limits_{i=1}^n \text{relint} (G_i) \neq \varnothing$ то функция $f(\bx) = \sum\limits_{i=1}^n a_i f_i(\bx), \; a_i > 0$ имеет субдифференциал $\partial_G f(\bx)$ на множестве $G = \bigcap\limits_{i=1}^n G_i$ и $\partial_G f(\bx) = \sum\limits_{i=1}^n a_i \partial_{G_i} f_i(\bx)$. 
+\end{block}
+
+\begin{block}{Если функция~--- максимум}
+Если $f(\bx) = \max\limits_{i=1,\ldots,m}(f_i(\bx))$, где $f_i(\bx)$ выпуклы, тогда 
+\pause
+$\partial_G f(\bx) = \text{Conv} \left(\bigcup\limits_{i \in \calJ(\bx)} \partial_G f_i(\bx)\right)$, где $\calJ(\bx) = \{ i = 1,\ldots, m | f_i(\bx) = f(\bx) \}$
+\end{block}
+\end{frame}
+
+\begin{frame}{Примеры}
+Найдите субдифференциал для следующих функций.
+\begin{itemize}
+\item Модуль: $f(x) = |x|$
+\item Норма $\ell_2$: $f(\bx) = \| \bx \|_2$
+\item Скалярный максимум: $f(x) = \max(e^x, 1 - x)$
+\item Векторный максимум: $f(\bx) = |\bc^{\T}\bx|$
+\item $f(\bx) = |\bc^{\T}_1\bx| + |\bc^{\T}_2\bx|$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Условный субдифференциал}
+\footnotesize
+\begin{block}{Определение}
+\footnotesize
+Множество 
+$
+\{ \ba |  f(\bx) - f(\bx_0) \geq \langle \ba, \bx - \bx_0 \rangle, \; \forall \bx \in X \}
+$ 
+называется субдифференциалом $f$ в $\bx_0$ на множестве $X$ и обозначается $\partial_X f(\bx_0)$.
+\end{block}
+%Если функция $f$ определена на множестве $X \subset \bbR^n$, то как определить субдифференциал в граничных точках?
+\begin{block}{Как перейти от безусловного субдифференциала к условному?}
+\footnotesize
+Если $f$~--- выпуклая функция, то рассмотрим функцию $g(\bx) = f(\bx) + \delta(\bx | X)$, которая тоже выпуклая.
+Тогда
+\vspace{-2mm} 
+\[
+\partial g (\bx_0) = \partial_X f(\bx_0) = \partial f(\bx_0) + \partial \delta(\bx_0 | X).
+\vspace{-3mm} 
+\]
+Найдём $\partial \delta(\bx_0 | X)$:
+\vspace{-3mm}
+\[
+\delta(\bx |X) - \delta(\bx_0 |X) \mathop{=}\limits^{\bx \in X} 0 \geq \langle \ba, \bx - \bx_0 \rangle
+%\vspace{-3mm}
+\]
+\end{block}
+
+\begin{block}{Нормальный конус}
+\footnotesize
+Множество $N(\bx_0 | X) = \{ \ba | \langle \ba, \bx - \bx_0 \rangle \leq 0, \; \forall \bx \in X \}$ называется нормальным конусом к множеству $X$ в точке $\bx_0$.
+\end{block}
+Тогда $\partial_X f(\bx_0) = \partial f(\bx_0) + N(\bx_0 | X)$  
+\end{frame}
+
+\begin{frame}{Примеры}
+\begin{itemize}
+\item $f(x) = |x|$, $X = \{-1 \leq x \leq 1 \}$
+\item $f(\bx) = |x_1 - x_2|$, $X = \{ \bx | \| \bx \|^2_2 \leq 2 \}$
+%\item $f(\bx) = |x_1 - x_2| + |x_1 + x_2|$, $X = \{ \bx | \| \bx \|^2_2 \leq 2 \}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Резюме}
+\begin{itemize}
+\item Субградиент
+\item Субдифференциал
+\item Условный субдифференциал
+\item Методы вычислений
+\end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,17 @@
+*.aux
+*.out
+*.log
+*.gz
+*.toc
+*.spl
+*.nav
+*.snm
+.ipynb_checkpoints/
+*.pyc
+*.bbl
+*.blg
+*.dvi
+.DS_Store
+*.bak
+*.vrb
+*.wav

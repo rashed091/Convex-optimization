@@ -1,0 +1,310 @@
+\documentclass[12pt]{beamer}
+\usepackage{../latex-sty/mypres}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
+\usefonttheme[onlymath]{serif}
+
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+  \insertshorttitle\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
+  
+\title[Семинар 1]{Методы оптимизации. \\
+Семинар 1. Введение.}
+\author{Александр Катруца}
+\institute{Московский физико-технический институт,\\
+Факультет Управления и Прикладной Математики} 
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Вопросы к студентам}
+\begin{itemize}
+\item Имя
+\item Кафедра
+\item Знание \TeX/\LaTeX
+\item Ожидания от курса
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{О чём этот курс?}
+\uncover<+->{
+Первый семестр (теоретический):
+\begin{itemize}
+\item Основы выпуклого анализа
+\item Условия оптимальности
+\item Теория двойственности
+\end{itemize}
+}
+\uncover<+->{
+Второй семестр (практический):
+\begin{itemize}
+\item Методы безусловной минимизации первого и второго порядка 
+\item Методы условной оптимизации
+\item Линейное программирование: симплекс-метод и пр.
+\item Оптимальные методы
+\item ...
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{План на семестр}
+\begin{itemize}[<+->]
+\item Семинар и лекция раз в неделю
+\item Миниконтрольные в начале каждого семинара
+\item Домашнее задание после каждого семинара
+\item Итоговая контрольная в конце семестра \\ (и промежуточная в середине семестра)
+\item Экзамен в конце семестра. Среднее арифметическое:
+\begin{itemize}
+\item оценки за работу в семестре
+\item ответа на экзамене
+\end{itemize}
+\item Piazza для Q\&A
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Зачем этот курс?}
+\begin{itemize}[<+->]
+\item Формализация задачи выбора элемента из множества
+\item Обоснование правильности принятия решения
+\item Разнообразные приложения:
+\begin{itemize}
+\item машинное обучение: классификация, кластеризация, регрессия
+\item молекулярное моделирование
+\item анализ рисков
+\item выбор активов (portfolio optimization)
+\item оптимальное управление
+\item обработка сигналов
+\item оценка параметров в статистике 
+\item и другие% \footnote{\url{http://www.cvxpy.org/en/latest/examples/index.html}}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Предварительные навыки}
+\begin{itemize}
+\item Линейная алгебра
+\item Математический анализ
+\item Программирование: Python (NumPy, SciPy, CVXPY) или MATLAB
+\item Элементы вычислительной математики
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Методология}
+Основные этапы использования методов оптимизации при решении реальных задач:
+\begin{enumerate}[<+->]
+\item Определение целевой функции
+\item Определение допустимого множества решений
+\item Постановка и анализ оптимизационной задачи
+\item Выбор наилучшего алгоритма для решения поставленной задачи
+\item Реализация алгоритма и проверка его корректности
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Постановка задачи}
+\uncover<+->{
+\begin{equation*}
+\begin{split}
+&\min\limits_{\bx \in X} f_0(\bx)\\
+\text{s.t. } & f_i(\bx) = 0, \; i = 1,\ldots,p\\
+& f_j(\bx) \leq 0, \; j = p+1,\ldots,m,
+\end{split}
+\end{equation*}
+}
+\begin{itemize}[<+->]
+\item $\bx \in \bbR^n$~--- искомый вектор
+\item $f_0(\bx): \bbR^n \rightarrow \bbR$~--- целевая функция
+\item $f_k(\bx): \bbR^n \rightarrow \bbR$~--- функции ограничений
+\end{itemize}
+\uncover<+->{
+Пример: выбор объектов для вложения денег и определение в какой объект сколько вкладывать
+\begin{itemize}
+\item $\bx$~--- размер инвестиций в каждый актив
+\item $f_0$~--- суммарный риск или вариация прибыли
+\item $f_k$~--- бюджетные ограничения, min/max вложения в актив, минимально допустимая прибыль
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{Как решать?}
+В общем случае:
+\begin{itemize}
+\item NP-полные
+\item {\small рандомизированные алгоритмы: время vs. стабильность}
+\end{itemize}
+
+{\small НО определённые классы задач могут быть решены быстро!}
+
+\begin{itemize}
+\item Линейное программирование
+\item Метод наименьших квадратов
+\item Малоранговое приближение порядка $k$
+\item Выпуклая оптимизация
+\end{itemize}
+\end{frame}
+
+\begin{frame}{История развития}
+
+\begin{itemize}
+\item 1940-ые~--- линейное программирование
+\item 1950-ые~--- квадратичное программирование
+\item 1960-ые~--- геометрическое программирование
+\item 1990-ые~--- полиномиальные методы внутренней точки для произвольной задачи выпуклой оптимизации
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Современные направления}
+\begin{itemize}[<+->]
+\item Решение задач огромной размерности $(\sim 10^8-10^{12})$
+\item Распределённая оптимизация
+\item Быстрые методы первого порядка
+\item Стохастические алгоритмы: масштабируемость vs. точности
+\item Невыпуклые задачи определённой структуры
+\item Приложения выпуклой оптимизации
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Линейное программирование}
+\begin{equation*}
+\begin{split}
+&\min\limits_{\bx \in \bbR^n} \bc^{\T}\bx\\
+\text{s.t. } & \ba^{\T}_i \bx \leq b_i, \; i = 1,\ldots, m
+\end{split}
+\label{eq::lin_prog}
+\end{equation*}
+\begin{itemize}
+\item нет аналитического решения
+\item существуют эффективные алгоритмы
+\item разработанная технология
+\item симплекс-метод входит в Top-10 алгоритмов XX века\footnote{\url{https://archive.siam.org/pdf/news/637.pdf}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Задача наименьших квадратов}
+\begin{equation*}
+\min\limits_{\bx \in \bbR^n} \|\bA\bx - \mathbf{b} \|^2_2,
+\label{eq::least_sq}
+\end{equation*}
+где $\bA \in \bbR^{m \times n}$ и $\mathbf{b} \in \bbR^m$.
+\begin{itemize}
+\item имеет аналитическое решение: $\bx^* = (\bA^{\T}\bA)^{-1}\bA^{\T}\mathbf{b}$
+\item существуют эффективные алгоритмы
+\item разработанная технология
+\item имеет статистическую интерпретацию
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Малоранговое приближение ранга $k$}
+
+\begin{equation*}
+\begin{split}
+&\min\limits_{\bX \in \bbR^{m \times n}} \|\bA - \bX \|_F \\
+\text{s.t. } & \text{rank}(\bX) \leq k
+\end{split}
+\end{equation*}
+
+\begin{Theorem}[Eckart–Young, 1993]
+Пусть $\bA = \bU\bSigma\bV^{\T}$~--- сингулярное разложение матрицы $\bA$, где $\bU = [\bU_k, \bU_{r-k}] \in \bbR^{m \times r}$, $\bSigma = \diag{\sigma_1, \ldots, \sigma_k, \ldots, \sigma_r}$, $\bV = [\bV_k, \bV_{r - k}] \in \bbR^{n \times r}$ и $r = \text{rank}(\bA)$.  Тогда решение задачи можно записать в виде:
+\[
+\bX = \hat{\bU} \hat{\bSigma} \hat{\bV}^{\T},
+\]
+где $\hat{\bU} \in \bbR^{m \times k}$, $\hat{\bSigma} = \diag{\sigma_1, \ldots, \sigma_k}$, $\hat{\bV} \in \bbR^{n \times k}$.
+\end{Theorem}
+\small Алгоритм вычисления сингулярного разложения и быстрый, и устойчивый.
+\end{frame}
+
+\begin{frame}{Выпуклая оптимизация}
+\begin{equation*}
+\begin{split}
+&\min\limits_{\bx \in \bbR^n} f_0(\bx)\\
+\text{s.t. } & f_i(\bx) \leq b_i, \; i = 1,\ldots, m
+\end{split}
+\label{eq::conv_opt}
+\end{equation*}
+\begin{itemize}[<+->]
+\item $f_0, f_i$~--- выпуклые функции:
+\[
+f(\alpha \bx_1 + \beta \bx_2) \leq \alpha f(\bx_1) + \beta f(\bx_2),
+\]
+где $\alpha, \beta \geq 0$ и $\alpha + \beta = 1$.
+\item нет аналитического решения
+\item существуют эффективные алгоритмы
+\item часто сложно <<увидеть>> задачу выпуклой оптимизации
+\item существуют приёмы для преобразования задачи к стандартному виду
+\end{itemize}
+\end{frame}
+
+%\begin{frame}{Какая задача проще?}
+%
+%\begin{columns}[T]
+%\begin{column}{0.5\textwidth}
+%Поиск независимого под-алфавит максимальной мощности
+%\begin{equation*}
+%\begin{split}
+%&\max\limits_{\bx \in \bbR^n} \sum\limits_{i=1}^n x_i\\
+%\text{s.t. } & x_i^2 - x_i = 0 \quad i = 1,\ldots, n\\
+%& x_ix_j = 0 \qquad \forall (i, j) \in \Gamma,
+%\end{split}
+%\end{equation*}
+%где $\Gamma$~--- множество пар
+%\end{column}
+%~
+%\begin{column}{0.5\textwidth}
+%\small
+%Truss design
+%\begin{equation*}
+%\begin{split}
+%& \min -2\sum\limits_{i=1}^k\sum\limits_{j=1}^m c_{ij} x_{ij} + x_{00}\\
+%\text{s.t. } & \sum\limits_{i=1}^k x_i = 1\\
+%& \lambda_{\min}(\bA) \geq 0,
+%\end{split}
+%\end{equation*}
+%\scriptsize
+%где $\bA = 
+%\begin{bmatrix}
+%x_1 & \ldots & \ldots & \sum\limits_{j=1}^m b_{pj}x_{1j}\\
+%\vdots & \ddots & & \vdots\\
+% & & x_k & \sum\limits_{j=1}^m b_{pj}x_{kj}\\
+%\sum\limits_{j=1}^m b_{pj}x_{1j} & \ldots & \sum\limits_{j=1}^m b_{pj}x_{kj} & x_{00}
+%\end{bmatrix}
+%$
+%\end{column}
+%\end{columns}
+%
+%\end{frame}
+
+\begin{frame}{Почему выпуклость так важна?}
+\uncover<+->{
+\begin{block}{R. Tyrrell Rockafellar (1935~---)}
+The great watershed in optimization is not between linearity and
+non-linearity, but convexity and non-convexity.
+\end{block}
+}
+\begin{itemize}[<+->]
+\item Локальный оптимум является глобальным
+\item Необходимое условие оптимальности является достаточным
+\end{itemize}
+\uncover<+->{
+Вопросы:
+}
+\begin{itemize}[<+->]
+\item Любую ли задачу выпуклой оптимизации можно эффективно решить?
+\item Можно ли эффективно решить невыпуклые задачи оптимизации?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Резюме}
+\begin{itemize}
+\item Организация работы
+\item Предмет курса по оптимизации
+\item Общая формулировка оптимизационной задачи
+\item Классические оптимизационные задачи
+\end{itemize}
+\end{frame}
+
+\end{document}
